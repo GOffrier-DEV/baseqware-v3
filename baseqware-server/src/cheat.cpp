@@ -169,12 +169,8 @@ void main_tick() {
     return;
   }
 
-  auto boxes = []() -> auto {
-    std::vector<server::BoxData> vec;
-    vec.reserve(sdk::EntityListEntry::k_max_idx);
-    return vec;
-  }();
-  boxes.clear();
+  std::vector<server::BoxData> boxes;
+  boxes.reserve(sdk::EntityListEntry::k_max_idx);
 
   int local_team = g.local_player.m_iTeamNum(rc);
 
