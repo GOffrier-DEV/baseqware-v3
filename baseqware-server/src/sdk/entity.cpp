@@ -2,6 +2,9 @@
 
 #include "../../../offsets/offsets.hpp"
 
+using namespace cs2_dumper::offsets;
+using namespace cs2_dumper::schemas::client_dll;
+
 namespace sdk {
 
 std::string PlayerController::get_name(bool &rc) const {

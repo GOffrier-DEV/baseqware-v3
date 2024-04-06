@@ -7,6 +7,8 @@
 #include "common.hpp"
 #include "vector.hpp"
 
+using namespace cs2_dumper::schemas::client_dll;
+
 namespace sdk {
 
 SDK_DECLARE_CLASS(BaseEntity)

@@ -6,16 +6,21 @@
 
 #include "../../offsets/client.dll.hpp"
 #include "../../offsets/offsets.hpp"
+#include "../../offsets/build_info.hpp"
 #include "driver_interface.hpp"
 #include "sdk/entity.hpp"
 #include "sdk/view_matrix.hpp"
 #include "server.hpp"
 #include "util.hpp"
 
+
 using namespace std::chrono_literals;
 
 using driver_interface::ModuleInfo;
 using driver_interface::read;
+
+using namespace cs2_dumper::offsets;
+using namespace cs2_dumper::offsets::engine2_dll;
 
 namespace {
 void (*g_tick)();
@@ -87,7 +92,7 @@ void load_modules() {
       return;
     }
     spdlog::info("Build number: {:x}", build_number);
-    if (build_number != game_info::buildNumber) {
+    if (build_number != build_info::buildNumber) {
       spdlog::error("Wrong build number! Did the game update?");
       g_tick = stop;
       return;
