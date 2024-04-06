@@ -156,6 +156,7 @@ void main_tick() {
   static util::SyncTimer timer{4ms};
   util::ScopeGuard sg([] { timer.wait(); });
 
+  g_modules.client.read(client_dll::dwLocalPlayerPawn, g.local_player.addr);
   // TODO:
   RW(read(g.local_player_ctrl + CCSPlayerController::m_bPawnIsAlive, g.is_alive)
   );
