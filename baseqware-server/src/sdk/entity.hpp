@@ -2,12 +2,12 @@
 
 #include <cstdint>
 
-#include "../../../offsets/client.dll.hpp"
+#include "../../../offsets/libclient.so.hpp"
 #include "../driver_interface.hpp"
 #include "common.hpp"
 #include "vector.hpp"
 
-using namespace cs2_dumper::schemas::client_dll;
+using namespace cs2_dumper::schemas::libclient_so;
 
 namespace sdk {
 

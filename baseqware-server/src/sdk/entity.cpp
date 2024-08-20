@@ -3,7 +3,7 @@
 #include "../../../offsets/offsets.hpp"
 
 using namespace cs2_dumper::offsets;
-using namespace cs2_dumper::schemas::client_dll;
+using namespace cs2_dumper::schemas::libclient_so;
 
 namespace sdk {
 
@@ -39,7 +39,7 @@ BaseEntity PlayerController::get_pawn(
   rc &= driver_interface::read(
     this->addr + CCSPlayerController::m_hPlayerPawn, handle
   );
-  rc &= client.read(client_dll::dwEntityList, entry);
+  rc &= client.read(libclient_so::dwEntityList, entry);
   rc &= driver_interface::read(
     entry + 0x10 + 8 * (uintptr_t(handle & 0x7FFF) >> 9), entry // NOLINT
   );

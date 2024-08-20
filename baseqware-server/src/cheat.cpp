@@ -4,7 +4,7 @@
 
 #include <spdlog/spdlog.h>
 
-#include "../../offsets/client.dll.hpp"
+#include "../../offsets/libclient.so.hpp"
 #include "../../offsets/offsets.hpp"
 #include "../../offsets/build_info.hpp"
 #include "driver_interface.hpp"
@@ -20,7 +20,7 @@ using driver_interface::ModuleInfo;
 using driver_interface::read;
 
 using namespace cs2_dumper::offsets;
-using namespace cs2_dumper::offsets::engine2_dll;
+using namespace cs2_dumper::offsets::libengine2_so;
 
 namespace {
 void (*g_tick)();
@@ -86,7 +86,7 @@ void load_modules() {
   }
   if (!found_missing) {
     uint32_t build_number = 0;
-    if (!g_modules.engine.read(engine2_dll::dwBuildNumber, build_number)) {
+    if (!g_modules.engine.read(libengine2_so::dwBuildNumber, build_number)) {
       spdlog::error("Failed to read build number");
       g_tick = stop;
       return;
@@ -105,11 +105,11 @@ void load_modules() {
 void get_globals() {
   util::ScopeGuard sg([] { std::this_thread::sleep_for(1s); });
 
-  g_modules.client.read(client_dll::dwLocalPlayerPawn, g.local_player.addr);
+  g_modules.client.read(libclient_so::dwLocalPlayerPawn, g.local_player.addr);
   g_modules.client.read(
-    client_dll::dwLocalPlayerController, g.local_player_ctrl
+    libclient_so::dwLocalPlayerController, g.local_player_ctrl
   );
-  g_modules.client.read(client_dll::dwEntityList, g.entity_list.addr);
+  g_modules.client.read(libclient_so::dwEntityList, g.entity_list.addr);
   if (!g.local_player_ctrl || !g.local_player || !g.entity_list) {
     return;
   }
@@ -156,13 +156,13 @@ void main_tick() {
   static util::SyncTimer timer{4ms};
   util::ScopeGuard sg([] { timer.wait(); });
 
-  g_modules.client.read(client_dll::dwLocalPlayerPawn, g.local_player.addr);
+  g_modules.client.read(libclient_so::dwLocalPlayerPawn, g.local_player.addr);
   // TODO:
   RW(read(g.local_player_ctrl + CCSPlayerController::m_bPawnIsAlive, g.is_alive)
   );
 
   sdk::ViewMatrix view_matrix;
-  RW(g_modules.client.read(client_dll::dwViewMatrix, view_matrix));
+  RW(g_modules.client.read(libclient_so::dwViewMatrix, view_matrix));
 
   bool rc = true;
   auto ent_list_entry = g.entity_list.get_entry(rc);
